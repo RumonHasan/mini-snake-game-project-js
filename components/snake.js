@@ -54,6 +54,18 @@ export const snakeHeadRect = ()=>{
     return snakeBody[0];
 }
 
+// checking whether the snake itself
+export const snakeIntersection = ()=>{
+    const snakeHead = snakeHeadRect();
+    for(let i = 1; i < snakeBody.length ; i++){
+        if(snakeHead.x === snakeBody[i].x &&
+        snakeHead.y === snakeBody[i].y){
+            return true
+        }
+    }
+    return false;
+}
+
 const updateSnakeSegments = ()=>{
     for(let i = 0; i < snakeParts; i++){
         snakeBody.push({...snakeBody[snakeBody.length - 1]});

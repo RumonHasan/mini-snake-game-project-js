@@ -1,20 +1,27 @@
 // imports
 import { GAME_BOARD } from "../game.js";
 import { increaseSnakeParts, checkFoodCollision } from "./snake.js";
+import { randomGridPositions } from "./grid.js";
+import { increaseScore } from "./score.js";
 
 // variables
 const SNAKE_INCREASE_RATE = 1;
-let food = { // main food object
+let food = {
     x: 10,
-    y: 10
-}
+    y: 20
+};
 
 // update food
 export const updateFood = ()=>{
     if(checkFoodCollision(food)){
         increaseSnakeParts(SNAKE_INCREASE_RATE)
         food = randomFoodPositions();
+        increaseScore();
     }
+}
+
+export const foodElement = ()=>{
+    return food;
 }
 
 // draw food
@@ -29,8 +36,9 @@ export const drawFood = (gameBoardElem)=>{
 // get random positions
 const randomFoodPositions = () =>{
     let newFoodPositions;
-    return {
-        x: Math.floor(Math.random() * GAME_BOARD) + 1,
-        y: Math.floor(Math.random() * GAME_BOARD) + 1
+    // checking whether food position is null or is it placed anywhere on the snake
+    while(newFoodPositions == null || checkFoodCollision(newFoodPositions)){
+        newFoodPositions = randomGridPositions();
     }
+    return newFoodPositions;
 }

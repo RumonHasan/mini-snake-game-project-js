@@ -22,6 +22,7 @@ body {
   grid-template-columns: repeat(30, 1fr);
   grid-template-rows: repeat(30, 1fr);
   border: 2px solid blue;
+  position: relative;
 }
 
 .snake {
@@ -39,4 +40,35 @@ body {
 .food {
   background: chartreuse;
   border: 2px solid green;
+}
+
+.score-board {
+  position: absolute;
+  top: 0;
+  right: 40px;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(105, 2, 22);
+  font-weight: bold;
+  font-size: 20px;
+  opacity: 0.5;
+  white-space: nowrap;
+}
+
+.game-header-start {
+  color: rgb(84, 79, 79);
+  font-size: 4.5vmin;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.hide {
+  display: none;
 }

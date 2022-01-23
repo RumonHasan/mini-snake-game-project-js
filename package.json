@@ -1,0 +1,24 @@
+{
+  "name": "mini-snake-game-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "game.js",
+  "scripts": {
+    "start": "parcel index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RumonHasan/mini-snake-game-project-js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RumonHasan/mini-snake-game-project-js/issues"
+  },
+  "homepage": "https://github.com/RumonHasan/mini-snake-game-project-js#readme",
+  "dependencies": {
+    "html-parser": "^0.11.0",
+    "parcel": "^2.2.1"
+  }
+}
