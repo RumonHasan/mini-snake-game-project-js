@@ -586,7 +586,7 @@ const drawGameContents = ()=>{
     _snakeJs.drawSnake(gameBoardElem);
     _foodJs.drawFood(gameBoardElem);
     _scoreJs.drawScoreBoard(gameBoardElem);
-    _specialFoodJs.drawSpecialFood(gameBoardElem, deltaTime);
+    if (_specialFoodJs.specialAppearance) _specialFoodJs.drawSpecialFood(gameBoardElem, deltaTime);
 };
 //check boundary collision
 const checkBoundaryCollision = ()=>{
@@ -870,6 +870,8 @@ function gameSpeed() {
 },{"./score.js":"e86Kg","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"16dDJ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "specialAppearance", ()=>specialAppearance
+);
 parcelHelpers.export(exports, "updateSpecialFood", ()=>updateSpecialFood
 );
 parcelHelpers.export(exports, "drawSpecialFood", ()=>drawSpecialFood
@@ -880,9 +882,8 @@ var _gridJs = require("./grid.js");
 var _snakeJs = require("./snake.js");
 var _foodJs = require("./food.js");
 var _scoreJs = require("./score.js");
-// variables
-let nextSpecialAppearance = 0;
-const SPECIAL_APPEARANCE_INTERVAL = 1.5; // seconds
+let specialAppearance = false;
+const SPECIAL_APPEARANCE_INTERVAL = 100; // seconds
 let specialFood = {
     x: 14,
     y: 15
@@ -898,15 +899,6 @@ const updateSpecialFood = ()=>{
     }
 };
 const drawSpecialFood = (gameBoardElem, deltaTime)=>{
-    if (nextSpecialAppearance <= 0) {
-        drawFoodElement(gameBoardElem);
-        nextSpecialAppearance = SPECIAL_APPEARANCE_INTERVAL;
-    }
-    console.log(nextSpecialAppearance);
-    // keeps adding the delta time in order to make special appearance
-    nextSpecialAppearance -= deltaTime;
-};
-const drawFoodElement = (gameBoardElem)=>{
     const foodSp = document.createElement('div');
     foodSp.classList.add('special-food');
     foodSp.style.gridColumnStart = specialFood.x;

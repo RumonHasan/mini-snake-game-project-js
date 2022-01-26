@@ -3,7 +3,7 @@ import { updateSnake, drawSnake, snakeHeadRect, snakeIntersection } from "./comp
 import { updateFood, drawFood } from "./components/food.js";
 import { updateScoreBoard, drawScoreBoard, score } from "./components/score.js";
 import { gameSpeed } from "./components/speedControl.js";
-import { drawSpecialFood, updateSpecialFood } from "./components/specialFood.js";
+import { drawSpecialFood, updateSpecialFood, specialAppearance } from "./components/specialFood.js";
 // selectors 
 const gameBoardElem = document.querySelector('[data-board]');
 const gameHeaderElem = document.querySelector('[data-header]');
@@ -67,7 +67,9 @@ const drawGameContents = ()=>{
     drawSnake(gameBoardElem);
     drawFood(gameBoardElem);
     drawScoreBoard(gameBoardElem);
-    drawSpecialFood(gameBoardElem, deltaTime);
+    if(specialAppearance){
+        drawSpecialFood(gameBoardElem, deltaTime);
+    }
 }
 
 //check boundary collision
