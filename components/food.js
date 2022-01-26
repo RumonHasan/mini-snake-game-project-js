@@ -16,7 +16,7 @@ export const updateFood = ()=>{
     if(checkFoodCollision(food)){
         increaseSnakeParts(SNAKE_INCREASE_RATE)
         food = randomFoodPositions();
-        increaseScore();
+        increaseScore(1);
     }
 }
 

@@ -536,7 +536,7 @@ const gameHeaderElem = document.querySelector('[data-header]');
 let previousAnimationTime;
 let deltaTime;
 const ANIMATION_CONTROL = 1000;
-let GAME_SPEED = 3; // snake movement speed;
+const GAME_SPEED = 3; // snake movement speed;
 const GAME_BOARD = 30;
 let gameLost;
 // listeners
@@ -553,7 +553,7 @@ const updateGameLoop = (time)=>{
     // animation frame control
     window.requestAnimationFrame(updateGameLoop);
     deltaTime = (time - previousAnimationTime) / ANIMATION_CONTROL;
-    if (deltaTime < 1 / _speedControlJs.gameSpeed()) return; // dropping delta speed 
+    if (deltaTime < 1 / GAME_SPEED) return; // dropping delta speed 
     previousAnimationTime = time;
     // update the game contents
     updateGameContents();
@@ -566,6 +566,7 @@ const updateGameContents = ()=>{
     _snakeJs.updateSnake();
     // food
     _foodJs.updateFood();
+    _specialFoodJs.updateSpecialFood();
     // score 
     _scoreJs.updateScoreBoard();
 };
@@ -585,7 +586,7 @@ const drawGameContents = ()=>{
     _snakeJs.drawSnake(gameBoardElem);
     _foodJs.drawFood(gameBoardElem);
     _scoreJs.drawScoreBoard(gameBoardElem);
-    _specialFoodJs.drawSpecialFood(gameBoardElem);
+    _specialFoodJs.drawSpecialFood(gameBoardElem, deltaTime);
 };
 //check boundary collision
 const checkBoundaryCollision = ()=>{
@@ -793,7 +794,7 @@ const updateFood = ()=>{
     if (_snakeJs.checkFoodCollision(food)) {
         _snakeJs.increaseSnakeParts(SNAKE_INCREASE_RATE);
         food = randomFoodPositions();
-        _scoreJs.increaseScore();
+        _scoreJs.increaseScore(1);
     }
 };
 const foodElement = ()=>{
@@ -839,7 +840,6 @@ parcelHelpers.export(exports, "drawScoreBoard", ()=>drawScoreBoard
 parcelHelpers.export(exports, "increaseScore", ()=>increaseScore
 );
 let score = 0;
-const SCORE_INCREASE_RATE = 1;
 const updateScoreBoard = ()=>{
 };
 const drawScoreBoard = (gameBoardElem)=>{
@@ -848,7 +848,7 @@ const drawScoreBoard = (gameBoardElem)=>{
     scoreBoardElement.textContent = `Score: ${score}`;
     gameBoardElem.appendChild(scoreBoardElement);
 };
-const increaseScore = ()=>{
+const increaseScore = (SCORE_INCREASE_RATE)=>{
     score += SCORE_INCREASE_RATE;
 };
 
@@ -870,28 +870,56 @@ function gameSpeed() {
 },{"./score.js":"e86Kg","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"16dDJ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "foodAppearance", ()=>foodAppearance
-);
 parcelHelpers.export(exports, "updateSpecialFood", ()=>updateSpecialFood
 );
 parcelHelpers.export(exports, "drawSpecialFood", ()=>drawSpecialFood
 );
+parcelHelpers.export(exports, "getSpecialFoodPositions", ()=>getSpecialFoodPositions
+);
 var _gridJs = require("./grid.js");
-let foodAppearance = false;
+var _snakeJs = require("./snake.js");
+var _foodJs = require("./food.js");
+var _scoreJs = require("./score.js");
+// variables
+let nextSpecialAppearance = 0;
+const SPECIAL_APPEARANCE_INTERVAL = 1.5; // seconds
 let specialFood = {
     x: 14,
     y: 15
 };
+// special rate of increase
+const SNAKE_INCREASE_SPECIAL = 3;
 const updateSpecialFood = ()=>{
+    if (_snakeJs.checkFoodCollision(specialFood)) {
+        _snakeJs.increaseSnakeParts(SNAKE_INCREASE_SPECIAL);
+        _scoreJs.increaseScore(3);
+        // switchin to a random location 
+        specialFood = getSpecialFoodPositions();
+    }
 };
-const drawSpecialFood = (gameBoardElem)=>{
+const drawSpecialFood = (gameBoardElem, deltaTime)=>{
+    if (nextSpecialAppearance <= 0) {
+        drawFoodElement(gameBoardElem);
+        nextSpecialAppearance = SPECIAL_APPEARANCE_INTERVAL;
+    }
+    console.log(nextSpecialAppearance);
+    // keeps adding the delta time in order to make special appearance
+    nextSpecialAppearance -= deltaTime;
+};
+const drawFoodElement = (gameBoardElem)=>{
     const foodSp = document.createElement('div');
     foodSp.classList.add('special-food');
     foodSp.style.gridColumnStart = specialFood.x;
     foodSp.style.gridRowStart = specialFood.y;
     gameBoardElem.appendChild(foodSp);
 };
+const getSpecialFoodPositions = ()=>{
+    let newFoodPosition;
+    // randomizing positions till you get a new one
+    while(newFoodPosition == null || _snakeJs.checkFoodCollision(newFoodPosition) || newFoodPosition == _foodJs.foodElement)newFoodPosition = _gridJs.randomGridPositions();
+    return newFoodPosition;
+};
 
-},{"./grid.js":"eEktf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["g5aBM","5JiMD"], "5JiMD", "parcelRequire5581")
+},{"./grid.js":"eEktf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./snake.js":"4ZuYU","./food.js":"8rD8L","./score.js":"e86Kg"}]},["g5aBM","5JiMD"], "5JiMD", "parcelRequire5581")
 
 //# sourceMappingURL=index.905f6534.js.map

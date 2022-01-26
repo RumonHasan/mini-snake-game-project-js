@@ -1,6 +1,5 @@
 // variables
 export let score = 0;
-const SCORE_INCREASE_RATE = 1;
 
 // update score
 export const updateScoreBoard = ()=>{
@@ -14,6 +13,6 @@ export const drawScoreBoard = (gameBoardElem)=>{
     gameBoardElem.appendChild(scoreBoardElement);
 }
 
-export const increaseScore = ()=>{
+export const increaseScore = (SCORE_INCREASE_RATE)=>{
     score += SCORE_INCREASE_RATE;
 }

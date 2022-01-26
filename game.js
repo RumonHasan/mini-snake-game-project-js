@@ -3,7 +3,7 @@ import { updateSnake, drawSnake, snakeHeadRect, snakeIntersection } from "./comp
 import { updateFood, drawFood } from "./components/food.js";
 import { updateScoreBoard, drawScoreBoard, score } from "./components/score.js";
 import { gameSpeed } from "./components/speedControl.js";
-import { drawSpecialFood } from "./components/specialFood.js";
+import { drawSpecialFood, updateSpecialFood } from "./components/specialFood.js";
 // selectors 
 const gameBoardElem = document.querySelector('[data-board]');
 const gameHeaderElem = document.querySelector('[data-header]');
@@ -12,7 +12,7 @@ const gameHeaderElem = document.querySelector('[data-header]');
 let previousAnimationTime;
 let deltaTime;
 const ANIMATION_CONTROL = 1000;
-let GAME_SPEED = 3; // snake movement speed;
+const GAME_SPEED = 3; // snake movement speed;
 export const GAME_BOARD = 30;
 let gameLost;
 
@@ -30,7 +30,7 @@ const updateGameLoop = time =>{
     // animation frame control
     window.requestAnimationFrame(updateGameLoop);
     deltaTime = (time - previousAnimationTime) / ANIMATION_CONTROL;
-    if(deltaTime < 1 / gameSpeed() ) return; // dropping delta speed 
+    if(deltaTime < 1 / GAME_SPEED ) return; // dropping delta speed 
     previousAnimationTime = time;
 
     // update the game contents
@@ -45,6 +45,7 @@ const updateGameContents = ()=>{
     updateSnake();
     // food
     updateFood();
+    updateSpecialFood();
     // score 
     updateScoreBoard();
 }
@@ -66,7 +67,7 @@ const drawGameContents = ()=>{
     drawSnake(gameBoardElem);
     drawFood(gameBoardElem);
     drawScoreBoard(gameBoardElem);
-    drawSpecialFood(gameBoardElem);
+    drawSpecialFood(gameBoardElem, deltaTime);
 }
 
 //check boundary collision
